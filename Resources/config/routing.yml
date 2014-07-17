@@ -1,0 +1,7 @@
+ssa_homepage:
+    path:     /hello
+    defaults: { _controller: ssaBundle:Ssa:test }
+  
+ssa_run_service : 
+    path:    /ssa/run/{action}
+    defaults : {_controller : ssaBundle:Ssa:run}

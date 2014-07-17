@@ -1,0 +1,23 @@
+{
+    "name" : "ssa/ssaBundle",
+    "description" : "ssa bundle for use ssa framework into Symfony",
+    "type" : "symfony-bundle",
+    "authors" : [{
+        "name" : "Thomas Deblock",
+        "email" : "deblock.thomas.62@gmail.com"
+    }],
+    "keywords" : [
+        "ajax",
+        "php",
+        "ssa"
+    ],
+    "require" : {
+        "ssa/core" : "dev-master"
+    },
+    "autoload" : {
+        "psr-0" : {
+            "ssa\\ssaBundle" : ""
+        }
+    },
+    "target-dir" : "ssa/ssaBundle"
+}

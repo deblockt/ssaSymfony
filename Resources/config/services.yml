@@ -1,0 +1,28 @@
+parameters:
+    # configuration of ssa
+    ssa.configuration : 
+    # service list 
+    ssa.services :
+    # route use for generate url to call service run action
+    ssa.runner.route : 'ssa_run_service'
+    # class for ssa serviceManager
+    ssa.serviceManager.class : Ssa\SsaBundle\SsaExtension\ServiceManager
+    # class for urlFactory
+    ssa.urlFactory.class : Ssa\SsaBundle\SsaExtension\SymfonyRouteUrlFactory
+    # extends the assetFactory for add ssa: support
+    assetic.asset_factory.class : Ssa\SsaBundle\AsseticExtension\SsaAssetFactory
+        
+
+services:
+    # the specific symfony service manager
+    ssa.serviceManager :
+        class : %ssa.serviceManager.class%
+        arguments : [%ssa.services%, %ssa.configuration%, @service_container]
+        scope: container
+       
+    # the url factory used for generate runnable url
+    ssa.urlFactory : 
+        class : %ssa.urlFactory.class%
+        arguments : [@router, %ssa.runner.route%]
+            
+        
