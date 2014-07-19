@@ -27,6 +27,7 @@ class ssaExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
                 
         $container->setParameter('ssa.services', $config['services']);
-        $container->setParameter('ssa.configuration', $config['configuration']); 
+        $container->setParameter('ssa.configuration', $config['configuration']);         
+        $container->setParameter('ssa.parameterResolver', $config['parameterResolver']); 
     }
 }

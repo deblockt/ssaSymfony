@@ -3,15 +3,19 @@ parameters:
     ssa.configuration : 
     # service list 
     ssa.services :
+    # parameter resolver used 
+    ssa.parameterResolver : 
     # route use for generate url to call service run action
     ssa.runner.route : 'ssa_run_service'
     # class for ssa serviceManager
     ssa.serviceManager.class : Ssa\SsaBundle\SsaExtension\ServiceManager
     # class for urlFactory
     ssa.urlFactory.class : Ssa\SsaBundle\SsaExtension\SymfonyRouteUrlFactory
+    # the used parameter resolver
+    ssa.parameterResolver.class : Ssa\SsaBundle\SsaExtension\ParameterResolver
     # extends the assetFactory for add ssa: support
     assetic.asset_factory.class : Ssa\SsaBundle\AsseticExtension\SsaAssetFactory
-        
+       
 
 services:
     # the specific symfony service manager
@@ -24,5 +28,8 @@ services:
     ssa.urlFactory : 
         class : %ssa.urlFactory.class%
         arguments : [@router, %ssa.runner.route%]
-            
-        
+   
+    # the parameter resolver for convert javascript parameter into php parameter    
+    ssa.parameterResolver : 
+        class : %ssa.parameterResolver.class%
+        arguments : [%ssa.parameterResolver%, @service_container]

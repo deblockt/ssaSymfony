@@ -33,7 +33,7 @@ class SsaAssetFactory extends AssetFactory
         $this->container = $container;
         $this->root = $baseDir;
         $configuration = $container->getParameter('ssa.configuration');
-        var_dump($configuration);
+        
         $this->ssaJsFile = $configuration['ssaJsFile'];
         
         parent::__construct($kernel, $container, $parameterBag, $baseDir, $debug);

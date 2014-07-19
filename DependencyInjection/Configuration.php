@@ -45,6 +45,18 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('ssaJsFile')->defaultValue('../vendor/ssa/core/javascript/ssa.js')->end()
                     ->end()
                 ->end()
+                ->arrayNode('parameterResolver')
+                    ->children()
+                        ->arrayNode('primitive')
+                            ->prototype('scalar')
+                            ->end()
+                        ->end()
+                        ->arrayNode('object')
+                            ->prototype('scalar')
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;
