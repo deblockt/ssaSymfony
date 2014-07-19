@@ -1,14 +1,9 @@
 <?php
 
-/*
- * This file is part of the Assetic package, an OpenSky project.
- *
- * (c) 2010-2013 OpenSky Project Inc
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+/**
+ * this is a specific factory for add ssa assetic support
+ * this factory can crate SsaAssetic and SsaAsseticCollection
  */
-
 namespace Ssa\SsaBundle\AsseticExtension;
 
 use Symfony\Bundle\AsseticBundle\Factory\AssetFactory;
@@ -19,6 +14,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 class SsaAssetFactory extends AssetFactory
 {
     private $container;
+    private $kernel;
+    private $root;
+    private $ssaJsFile;
     
     /**
      * Constructor.
@@ -30,8 +28,14 @@ class SsaAssetFactory extends AssetFactory
      * @param Boolean               $debug        The current debug mode
      */
     public function __construct(KernelInterface $kernel, ContainerInterface $container, ParameterBagInterface $parameterBag, $baseDir, $debug = false)
-    {
+    {        
+        $this->kernel = $kernel;
         $this->container = $container;
+        $this->root = $baseDir;
+        $configuration = $container->getParameter('ssa.configuration');
+        var_dump($configuration);
+        $this->ssaJsFile = $configuration['ssaJsFile'];
+        
         parent::__construct($kernel, $container, $parameterBag, $baseDir, $debug);
     }
 
@@ -62,10 +66,22 @@ class SsaAssetFactory extends AssetFactory
             
             return new SsaAsset(
                 $serviceManager->getServiceMetadata($serviceName),
-                $urlFactory                
+                $urlFactory,
+                $this->root . DIRECTORY_SEPARATOR . $this->ssaJsFile
             );
         }
         
         return parent::parseInput($input, $options);
+    }
+    
+    protected function createAssetCollection(array $assets = array(), array $options = array())
+    {
+        return new SsaAssetCollection(
+            $assets,
+            array(),
+            null,
+            isset($options['vars']) ? $options['vars'] : array(),
+            $this->root . DIRECTORY_SEPARATOR . $this->ssaJsFile
+        );
     }
 }

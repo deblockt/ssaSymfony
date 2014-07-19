@@ -9,9 +9,8 @@ use ssa\converter\UrlFactory;
 use ssa\converter\JavascriptConverter;
 
 /**
- * specific service for ssa service
- * input is the  ssa service name
- * load the javascript content
+ * asset for load ssa asset
+ * ssa asset avec input frmat like this : "ssa:serviceName"
  *
  * @author thomas
  */
@@ -20,6 +19,10 @@ class SsaAsset extends BaseAsset {
     private $serviceMetadata;
     
     private $urlFactory;
+    
+    private $ssaJavascriptFile;
+    
+    private $mustLoadSsa;
     
     /**
      * Constructor.
@@ -33,13 +36,25 @@ class SsaAsset extends BaseAsset {
      *
      * @throws \InvalidArgumentException If the supplied root doesn't match the source when guessing the path
      */
-    public function __construct(ServiceMetadata $serviceMetadata, UrlFactory $urlFactory,  $filters = array(), array $vars = array())
+    public function __construct(
+        ServiceMetadata $serviceMetadata,
+        UrlFactory $urlFactory,
+        $ssaJavascriptFile,
+        $filters = array(),
+        array $vars = array()
+    )
     {
+        $this->mustLoadSsa = true;
+        $this->ssaJavascriptFile = $ssaJavascriptFile;
         $this->serviceMetadata = $serviceMetadata;
         $this->urlFactory = $urlFactory;
         parent::__construct($filters, null, $this->serviceMetadata->getServiceName(), $vars);
     }
 
+    public function dontLoadSsa() {
+        $this->mustLoadSsa = false;
+    }
+    
     public function getLastModified() {
         return filemtime($this->serviceMetadata->getClass()->getFileName());
     }
@@ -51,6 +66,15 @@ class SsaAsset extends BaseAsset {
                 $this->serviceMetadata,
                 $this->urlFactory
             );
+            
+            if ($this->mustLoadSsa) {
+                $content .= 'if (ssa == undefined) {';
+                $content .= file_get_contents($this->ssaJavascriptFile);
+                $content .= '}';
+            }
+            
+            $this->mustLoadSsa = true;
+            
             $content .= $converter->convert();  
         } catch (\Exception $ex) {
             $content = 'console.error("message : "+ '.json_encode($ex->getMessage()).');'."\n";
