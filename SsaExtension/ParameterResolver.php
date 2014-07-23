@@ -25,6 +25,7 @@ class ParameterResolver extends DefaultParameterResolver {
         $this->addPrimitiveResolver(new ArrayPrimitiveResolver());
         $this->addObjectResolver(new DefaultObjectResolver());
         $this->addObjectResolver(new DateTimeObjectResolver());
+        $this->addObjectResolver($container->get('ssa.resolver.doctrineResolver'));
         
         // add own PrimitiveResolver
         if (isset($configuration['primitive'])) {

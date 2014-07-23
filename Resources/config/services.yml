@@ -13,6 +13,8 @@ parameters:
     ssa.urlFactory.class : Ssa\SsaBundle\SsaExtension\SymfonyRouteUrlFactory
     # the used parameter resolver
     ssa.parameterResolver.class : Ssa\SsaBundle\SsaExtension\ParameterResolver
+    # the doctrine resolver service
+    ssa.resolver.doctrineResolver.class : Ssa\SsaBundle\SsaExtension\DoctrineObjectResolver
     # extends the assetFactory for add ssa: support
     assetic.asset_factory.class : Ssa\SsaBundle\AsseticExtension\SsaAssetFactory
        
@@ -33,3 +35,7 @@ services:
     ssa.parameterResolver : 
         class : %ssa.parameterResolver.class%
         arguments : [%ssa.parameterResolver%, @service_container]
+        
+    ssa.resolver.doctrineResolver :
+        class : %ssa.resolver.doctrineResolver.class%
+        arguments : [@doctrine.orm.entity_manager]
