@@ -30,7 +30,4 @@ class SsaController extends Controller
         return $response;        
     }
     
-    public function testAction() {
-        return $this->render('ssaBundle:Ssa:run.html.twig');
-    }
 }

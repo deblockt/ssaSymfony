@@ -3,6 +3,7 @@
 namespace Ssa\SsaBundle\SsaExtension;
 
 use ssa\converter\UrlFactory;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * service for create route based on route parameter
@@ -20,10 +21,10 @@ class SymfonyRouteUrlFactory implements UrlFactory {
      * the symfony ssa router
      * create a route with a symfony route
      * 
-     * @param object $router
+     * @param RouterInterface $router
      * @param string the route name
      */
-    public function __construct($router, $route) {
+    public function __construct(RouterInterface $router, $route) {
         $this->router = $router;
         $this->route = $route;
     }
