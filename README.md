@@ -27,7 +27,7 @@ ssa :
         # or you can just export any methods of this service
         serviceName2 : {service : 'ssa.test.service', methods : ['methodToImport']}
         # if your service is not a symfony service you can use the class attribute
-        serviceName3 : {service : '\Path\To\Your\Class', methods : ['methodToImport']}      
+        serviceName3 : {class : '\Path\To\Your\Class', methods : ['methodToImport']}      
 ```
 
 And you can Simply import the javascript service with assetic, like this :
