@@ -43,3 +43,12 @@ And you can Simply import the javascript service with assetic, like this :
 {% endjavascripts  %}
     
 ```
+
+you can now simply call your php service into your javascript file : 
+```javascript
+serviceName1
+    .methodToImport('param1', {objectProp : 'ObjectValue', objectProp2 : 'ObjectValue2'})
+    .done(function(data){
+        console.log(data);
+    });
+```
