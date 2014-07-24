@@ -1,5 +1,5 @@
 {
-    "name" : "ssa/ssaBundle",
+    "name" : "ssa/ssa-bundle",
     "description" : "ssa bundle for use ssa framework into Symfony",
     "type" : "symfony-bundle",
     "authors" : [{
