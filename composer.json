@@ -19,5 +19,5 @@
             "Ssa\\SsaBundle" : ""
         }
     },
-    "target-dir" : "ssa/ssaBundle"
+    "target-dir" : "Ssa/SsaBundle"
 }
