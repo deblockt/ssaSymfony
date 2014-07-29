@@ -11,7 +11,7 @@
         "php",
         "ssa"
     ],
-    "require" : {
+    "require-dev" : {
         "ssa/core" : "dev-master"
     },
     "autoload" : {
