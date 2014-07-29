@@ -16,7 +16,7 @@
     },
     "autoload" : {
         "psr-0" : {
-            "ssa\\ssaBundle" : ""
+            "Ssa\\SsaBundle" : ""
         }
     },
     "target-dir" : "ssa/ssaBundle"
