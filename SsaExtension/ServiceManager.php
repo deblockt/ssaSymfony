@@ -7,7 +7,7 @@ use ssa\ServiceMetadata;
 use ssa\Configuration;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use ssa\ssaBundle\ssaExtension\SymfonyServiceMetadata;
+use Ssa\SsaBundle\SsaExtension\SymfonyServiceMetadata;
 
 class ServiceManager {
     
