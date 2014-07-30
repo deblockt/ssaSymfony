@@ -23,14 +23,11 @@ class SsaExtension extends Extension
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
         
-        $configuration = new Configuration();
+        $configuration = new Configuration($container);
         $config = $this->processConfiguration($configuration, $configs);
                 
         $container->setParameter('ssa.services', $config['services']);
-        $container->setParameter('ssa.configuration', $config['configuration']); 
-        if (!isset($config['parameterResolver'])) {
-            $config['parameterResolver'] = array();
-        }
+        $container->setParameter('ssa.configuration', $config['configuration']);         
         $container->setParameter('ssa.parameterResolver', $config['parameterResolver']); 
     }
 }

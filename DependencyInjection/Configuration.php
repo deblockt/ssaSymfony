@@ -4,6 +4,7 @@ namespace Ssa\SsaBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * This is the class that validates and merges configuration from your app/config files
@@ -12,6 +13,16 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    /**
+     *
+     * @var ContainerBuilder
+     */
+    private $container;
+    
+    public function __construct(ContainerBuilder $container) {
+        $this->container = $container;
+    }
+    
     /**
      * {@inheritDoc}
      */
@@ -34,8 +45,11 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('configuration')
+                    ->addDefaultsIfNotSet()
                     ->children()
-                        ->booleanNode('debug')->defaultValue('%kernel.debug%')->end()
+                        ->booleanNode('debug')
+                            ->defaultValue($this->container->getParameter('kernel.debug'))
+                            ->end()
                         ->enumNode('cacheMode')
                             ->values(array('file', 'apc', 'memcache'))
                         ->end()
@@ -46,6 +60,7 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
                 ->arrayNode('parameterResolver')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('primitive')
                             ->prototype('scalar')
