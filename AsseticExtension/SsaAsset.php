@@ -8,6 +8,8 @@ use ssa\converter\UrlFactory;
 
 use ssa\converter\JavascriptConverter;
 
+use ssa\Configuration;
+
 /**
  * asset for load ssa asset
  * ssa asset avec input frmat like this : "ssa:serviceName"
