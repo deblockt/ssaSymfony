@@ -17,6 +17,7 @@ Ssa bundle installation is very simple, you need just to add composer dependency
 ```
 
 Add the ssa routing in your routing.yml
+
 *routing.yml*
 ```yml
 _ssa:
