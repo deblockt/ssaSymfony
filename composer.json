@@ -12,7 +12,7 @@
         "ssa"
     ],
     "require" : {
-        "ssa/core" : "dev-master"
+        "ssa/core" : "1.0.*"
     },
     "autoload" : {
         "psr-0" : {
