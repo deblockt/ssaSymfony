@@ -89,6 +89,21 @@ ssa :
 
 ```
 
+You can add your own resolver,  if you want use specific resolver for your own class : [Ssa documentation](https://github.com/deblockt/ssa#add-type-support)
+
+*config.yml*
+```yml
+ssa :
+    parameterResolver :
+        primitive :
+            - YourFirstPrimitiveResolver
+            - YoutSecondPrimitiveResolver
+        object :
+            - YourFirstObjectResolver
+            - YourSecondObjectResolver
+```
+
+
 #### Implementation
 
 You can change ssa implementation, add ssa parameters resolver, change route generator.
@@ -113,4 +128,14 @@ parameters :
     ssa.runner.route : Your\Own\UrlFactory
 ```
 
+##### Parameter resolver
 
+If you want use your own parameter resolver, you can set the class used. the parameter resolver is used for convert get or post parameter in php object.
+Your parameter resolver need to extends ssa\runner\resolver\impl\DefaultParameterResolver or implements ssa\runner\resolver\ParameterResolver.
+Your must change the parameter ssa.parameterResolver.class for use your own parameterResolver.
+
+*service.yml*
+```yml
+parameters :
+    ssa.parameterResolver.class : Your\own\resolver
+```
