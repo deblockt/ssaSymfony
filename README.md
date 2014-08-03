@@ -77,27 +77,34 @@ Product :
 ```
 
 *Database*
+
 Id  | Name  | Price
+
 1   | Foo   | 10.0
 
 *ProductService.php*
 ```php
 class ProductService {
-  public function getProduct(Product $p) {
-    return $p;
-  }
-  
-  public function updateProduct(Product $p) {
-    $em = $this->getDoctrine()->getManager();
-    $em->flush(); 
+    private $em;
     
-    return $em;
-  }
+    public function __construct(EntityManagerInterface $em) {
+        $this->em = $em;
+    }
+    
+    public function getProduct(Product $p) {
+        return $p;
+    }
+
+    public function updateProduct(Product $p) {
+        $this->em->persist($p);
+        $this->em->flush();
+        return $p;
+    }
 }
 
 ```
 
-if you call 
+Javascript call : 
 ```javascript
 productService.getProduct({id : 1}).done(function(data){
   // data.id = 1
