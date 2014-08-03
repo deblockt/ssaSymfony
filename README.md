@@ -61,3 +61,56 @@ serviceName1
         console.log(data);
     });
 ```
+
+### customization
+
+You can customize the framework with you own classes or change parameters.
+
+#### Parameters
+
+You can change any parameters on config.yml
+
+*config.yml*
+```yml
+ssa :
+    configuration :
+        # the debug configuration, default is the symfony configuration
+        debug : true | false
+        # the cache configuration, by default there are no cache, the cachemode is not mandatory with symfony
+        cacheMode : file | apc | memcache
+        # the cache directory if cacheMode is file. default it's the kernel.cache_dir
+        cacheDirectory : 
+        # the host for memcache cacheMode
+        memcacheHost :
+        # the port for memcache cacheMode
+        memcachePort :
+        # path to ssa js file, if you have your own ssa js implementation. Path begin in web directory
+        ssaJsFile :
+
+```
+
+#### Implementation
+
+You can change ssa implementation, add ssa parameters resolver, change route generator.
+
+##### Route manager
+
+Routes are use for generate url to call php services, by default the ssa_run_service route is used. 
+You have two way for change route generation. 
+The first is to change the route name used :
+
+*service.yml*
+```yml
+parameters :
+    ssa.runner.route : 'your_own_ssa_route_name'
+```
+
+Or you can completly change the class use for generate route, your class must implements ssa\converter\UrlFactory interface, your constructor must have two parameters  Symfony\Component\Routing\RouterInterface $router and  $routeName. For change the class used you must change the ssa.urlFactory.class parameter :
+
+*service.yml*
+```yml
+parameters :
+    ssa.runner.route : Your\Own\UrlFactory
+```
+
+
