@@ -11,8 +11,17 @@ Ssa bundle installation is very simple, you need just to add composer dependency
 *composer.json*
 ```json
 "require": {
+  "ssa/core" : "dev-master",
   "ssa/ssa-bundle" : "dev-master",
 }
+```
+
+Add the ssa routing in your routing.yml
+
+*routing.yml*
+```yml
+_ssa:
+    resource: "@SsaBundle/Resources/config/routing.yml"
 ```
 
 After you can register your services into config.yml
@@ -51,4 +60,141 @@ serviceName1
     .done(function(data){
         console.log(data);
     });
+```
+
+### Support
+
+Ssa allow to call php service into javascript code.
+Ssa in symfony add a parameter resolver. It can convert json oject into your doctrine entity.
+Example :
+*Entity*
+```yml
+Product :
+  - id
+  - name
+  - price
+  
+```
+
+*Database*
+Id  | Name  | Price
+1   | Foo   | 10.0
+
+*ProductService.php*
+```php
+class ProductService {
+  public function getProduct(Product $p) {
+    return $p;
+  }
+  
+  public function updateProduct(Product $p) {
+    $em = $this->getDoctrine()->getManager();
+    $em->flush(); 
+    
+    return $em;
+  }
+}
+
+```
+
+if you call 
+```javascript
+productService.getProduct({id : 1}).done(function(data){
+  // data.id = 1
+  // data.name = "Foo"
+  // data.price = 10.0
+});
+
+productService.updateProduct({id : 2, name : 'Bar', price : 15}).done(function(data){
+  // data.id = 2
+  // data.name = 'Bar'
+  // data.price = 15
+});
+
+productService.updateProduct({id : 1, price : 11.5}).done(function(data){
+  // data.id = 1
+  // data.name = 'Foo'
+  // data.price = 11.5
+});
+
+```
+
+
+
+### customization
+
+You can customize the framework with you own classes or change parameters.
+
+#### Parameters
+
+You can change any parameters on config.yml
+
+*config.yml*
+```yml
+ssa :
+    configuration :
+        # the debug configuration, default is the symfony configuration
+        debug : true | false
+        # the cache configuration, by default there are no cache, the cachemode is not mandatory with symfony
+        cacheMode : file | apc | memcache
+        # the cache directory if cacheMode is file. default it's the kernel.cache_dir
+        cacheDirectory : 
+        # the host for memcache cacheMode
+        memcacheHost :
+        # the port for memcache cacheMode
+        memcachePort :
+        # path to ssa js file, if you have your own ssa js implementation. Path begin in web directory
+        ssaJsFile :
+
+```
+
+You can add your own resolver,  if you want use specific resolver for your own class : [Ssa documentation](https://github.com/deblockt/ssa#add-type-support)
+
+*config.yml*
+```yml
+ssa :
+    parameterResolver :
+        primitive :
+            - YourFirstPrimitiveResolver
+            - YoutSecondPrimitiveResolver
+        object :
+            - YourFirstObjectResolver
+            - YourSecondObjectResolver
+```
+
+
+#### Implementation
+
+You can change ssa implementation, add ssa parameters resolver, change route generator.
+
+##### Route manager
+
+Routes are use for generate url to call php services, by default the ssa_run_service route is used. 
+You have two way for change route generation. 
+The first is to change the route name used :
+
+*service.yml*
+```yml
+parameters :
+    ssa.runner.route : 'your_own_ssa_route_name'
+```
+
+Or you can completly change the class use for generate route, your class must implements ssa\converter\UrlFactory interface, your constructor must have two parameters  Symfony\Component\Routing\RouterInterface $router and  $routeName. For change the class used you must change the ssa.urlFactory.class parameter :
+
+*service.yml*
+```yml
+parameters :
+    ssa.runner.route : Your\Own\UrlFactory
+```
+
+##### Parameter resolver
+
+If you want use your own parameter resolver, you can set the class used. the parameter resolver is used for convert get or post parameter in php object.
+Your parameter resolver need to extends ssa\runner\resolver\impl\DefaultParameterResolver or implements ssa\runner\resolver\ParameterResolver.
+Your must change the parameter ssa.parameterResolver.class for use your own parameterResolver.
+
+*service.yml*
+```yml
+parameters :
+    ssa.parameterResolver.class : Your\own\resolver
 ```
