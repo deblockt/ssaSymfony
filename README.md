@@ -62,6 +62,65 @@ serviceName1
     });
 ```
 
+### Support
+
+Ssa allow to call php service into javascript code.
+Ssa in symfony add a parameter resolver. It can convert json oject into your doctrine entity.
+Example :
+*Entity*
+```yml
+Product :
+  - id
+  - name
+  - price
+  
+```
+
+*Database*
+Id  | Name  | Price
+1   | Foo   | 10.0
+
+*ProductService.php*
+```php
+class ProductService {
+  public function getProduct(Product $p) {
+    return $p;
+  }
+  
+  public function updateProduct(Product $p) {
+    $em = $this->getDoctrine()->getManager();
+    $em->flush(); 
+    
+    return $em;
+  }
+}
+
+```
+
+if you call 
+```javascript
+productService.getProduct({id : 1}).done(function(data){
+  // data.id = 1
+  // data.name = "Foo"
+  // data.price = 10.0
+});
+
+productService.updateProduct({id : 2, name : 'Bar', price : 15}).done(function(data){
+  // data.id = 2
+  // data.name = 'Bar'
+  // data.price = 15
+});
+
+productService.updateProduct({id : 1, price : 11.5}).done(function(data){
+  // data.id = 1
+  // data.name = 'Foo'
+  // data.price = 11.5
+});
+
+```
+
+
+
 ### customization
 
 You can customize the framework with you own classes or change parameters.
