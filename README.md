@@ -158,7 +158,7 @@ FileService.upload(document.getElementById('simpleFileUploadInput').files);
 // upload multiple file
 FileService.uploadMultipleFile(document.getElementById('multipleFileUploadInput').files);
 ```
-Warning the file upload is not compatible with all navigator see [ssa documentation](https://github.com/deblockt/ssa) 
+Warning the file upload is not compatible with all navigator see [ssa documentation](https://github.com/deblockt/ssa).
 Warning the type file and array(file) is not compatible with symfony bundle, you must use UploadedFile.
 
 ### customization
