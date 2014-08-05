@@ -25,7 +25,10 @@ class SsaController extends Controller
         );
         
         $response =  new Response('Content', 200, array('content-type' => 'text/html'));
-        $parameters = $request->request->all();
+        $parameters = array_merge(
+            $request->request->all(),
+            $request->files->all()
+        );
         $response->setContent($serviceRunner->runAction($method, $parameters));
         return $response;        
     }
