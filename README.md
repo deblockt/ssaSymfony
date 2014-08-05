@@ -61,10 +61,13 @@ serviceName1
     });
 ```
 
-### Support
+### Specific Support
 
-Ssa allow to call php service into javascript code.
-Ssa in symfony add a parameter resolver. It can convert json oject into your doctrine entity.
+Ssa allow to call php service into javascript code. In addition to the types already supported by SSA, ssa in symfony support doctrine, and UploadedFile.
+
+#### Doctrine 
+
+Ssa in symfony add parameter resolvers. It can convert json oject into your doctrine entity.
 Example :
 *Entity*
 ```yml
@@ -125,8 +128,38 @@ productService.updateProduct({id : 1, price : 11.5}).done(function(data){
 
 ```
 
+#### FileUploaded
 
+Your service methods can have FileUploaded parameters.
+If you want upload a file you must just add FileUploaded parameter into your function.
 
+*service.php*
+```php
+public class FileService {
+  public function upload(Symfony\Component\HttpFoundation\File\UploadedFile $file) {
+    $file->move($myDirectory);
+  }
+  
+  /**
+   * @param array(Symfony\Component\HttpFoundation\File\UploadedFile) $files file list
+   */
+  public function uploadMultipleFile($files) {
+    foreach ($files as $file) {
+      $this->upload($file);
+    }
+  }
+}
+```
+
+*uploadFile.js*
+```javascript
+// upload one file
+FileService.upload(document.getElementById('simpleFileUploadInput').files);
+// upload multiple file
+FileService.uploadMultipleFile(document.getElementById('multipleFileUploadInput').files);
+```
+Warning the file upload is not compatible with all navigator see [ssa documentation](https://github.com/deblockt/ssa) 
+Warning the type file and array(file) is not compatible with symfony bundle, you must use UploadedFile.
 
 ### customization
 
