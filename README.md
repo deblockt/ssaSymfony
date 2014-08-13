@@ -15,6 +15,20 @@ Ssa bundle installation is very simple, you need just to add composer dependency
 }
 ```
 
+If composer say "ssa/core" not found add this line in your composer file :
+*composer.json*
+```json
+"require": {
+  "ssa/core" : "1.0.*",
+}
+```
+
+Add the bundle in your kernel :
+```php
+new Ssa\SsaBundle\SsaBundle()
+```
+
+
 Add the ssa routing in your routing.yml
 
 *routing.yml*
