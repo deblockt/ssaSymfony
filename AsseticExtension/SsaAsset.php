@@ -6,8 +6,6 @@ use Assetic\Asset\BaseAsset;
 use ssa\ServiceMetadata;
 use ssa\converter\UrlFactory;
 
-use ssa\converter\JavascriptConverter;
-
 use ssa\Configuration;
 
 /**
@@ -26,6 +24,8 @@ class SsaAsset extends BaseAsset {
     
     private $mustLoadSsa;
     
+    private $converterClass;
+    
     /**
      * Constructor.
      *
@@ -33,6 +33,7 @@ class SsaAsset extends BaseAsset {
      * @param ssa\UrlFactory $urlFactory the url factory
      * @param array  $filters    An array of filters
      * @param string $sourceRoot The source asset root directory
+     * @param string $converterClass
      * @param string $sourcePath The source asset path
      * @param array  $vars
      *
@@ -42,6 +43,7 @@ class SsaAsset extends BaseAsset {
         ServiceMetadata $serviceMetadata,
         UrlFactory $urlFactory,
         $ssaJavascriptFile,
+        $converterClass,
         $filters = array(),
         array $vars = array()
     )
@@ -50,6 +52,7 @@ class SsaAsset extends BaseAsset {
         $this->ssaJavascriptFile = $ssaJavascriptFile;
         $this->serviceMetadata = $serviceMetadata;
         $this->urlFactory = $urlFactory;
+        $this->converterClass = $converterClass;
         parent::__construct($filters, null, $this->serviceMetadata->getServiceName(), $vars);
     }
 
@@ -64,7 +67,7 @@ class SsaAsset extends BaseAsset {
     public function load(\Assetic\Filter\FilterInterface $additionalFilter = null) {
         $content = '';
         try {
-            $converter = new JavascriptConverter(
+            $converter = new $this->converterClass(
                 $this->serviceMetadata,
                 $this->urlFactory
             );

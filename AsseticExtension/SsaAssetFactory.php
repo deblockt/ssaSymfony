@@ -17,6 +17,7 @@ class SsaAssetFactory extends AssetFactory
     private $kernel;
     private $root;
     private $ssaJsFile;
+    private $converterClass;
     
     /**
      * Constructor.
@@ -33,7 +34,7 @@ class SsaAssetFactory extends AssetFactory
         $this->container = $container;
         $this->root = $baseDir;
         $configuration = $container->getParameter('ssa.configuration');
-        
+        $this->converterClass = $container->getParameter('ssa.converter.class');
         $this->ssaJsFile = $configuration['ssaJsFile'];
         
         parent::__construct($kernel, $container, $parameterBag, $baseDir, $debug);
@@ -67,7 +68,8 @@ class SsaAssetFactory extends AssetFactory
             return new SsaAsset(
                 $serviceManager->getServiceMetadata($serviceName),
                 $urlFactory,
-                $this->root . DIRECTORY_SEPARATOR . $this->ssaJsFile
+                $this->root . DIRECTORY_SEPARATOR . $this->ssaJsFile,
+                $this->converterClass
             );
         }
         

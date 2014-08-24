@@ -15,6 +15,8 @@ parameters:
     ssa.parameterResolver.class : Ssa\SsaBundle\SsaExtension\ParameterResolver
     # the doctrine resolver service
     ssa.resolver.doctrineResolver.class : Ssa\SsaBundle\SsaExtension\DoctrineObjectResolver
+    # the class used for convert php service to javascript service
+    ssa.converter.class : Ssa\SsaBundle\SsaExtension\SymfonyJavascriptConverter
     # extends the assetFactory for add ssa: support
     assetic.asset_factory.class : Ssa\SsaBundle\AsseticExtension\SsaAssetFactory
        

@@ -22,5 +22,4 @@ class UploadedFileObjectResolver extends ObjectResolverCOR {
         }
         return $parameters;
     }
-
 }
