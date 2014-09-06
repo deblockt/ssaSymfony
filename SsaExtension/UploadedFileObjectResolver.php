@@ -5,7 +5,7 @@ namespace Ssa\SsaBundle\SsaExtension;
 use ssa\runner\resolver\ObjectResolverCOR;
 
 /**
- * find parameter into database for doctrine entity
+ * Resolver UploadedFile parameter
  *
  * @author thomas
  */
